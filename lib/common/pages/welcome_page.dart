@@ -31,17 +31,23 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screensize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.backgroundColor,
         body: Stack(
           children: [
-            Positioned(top: -90, left: 150, child: RoundContainer(height: 400)),
             Positioned(
-              bottom: -90,
-              left: -150,
-              child: RoundContainer(height: 400),
+              top: -screensize.height * 0.12,
+              left: screensize.width * 0.4,
+              child: RoundContainer(height: screensize.height * 0.45),
             ),
+            Positioned(
+              bottom: -screensize.height * 0.12,
+              left: -screensize.width * 0.4,
+              child: RoundContainer(height: screensize.height * 0.45),
+            ),
+
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -60,29 +66,35 @@ class _WelcomePageState extends State<WelcomePage> {
 }
 
 Widget _welcometext(BuildContext context) {
+  final screensize = MediaQuery.of(context).size;
   return Text(
     "WELCOME",
     style: GoogleFonts.poppins(
       color: AppColors.textColor,
-      fontSize: 55,
+      fontSize: screensize.width * 0.15,
       fontWeight: FontWeight.bold,
     ),
   );
 }
 
 Widget _totext(BuildContext context) {
+  final screensize = MediaQuery.of(context).size;
   return Text(
     "To",
-    style: GoogleFonts.poppins(color: AppColors.textColor, fontSize: 35),
+    style: GoogleFonts.poppins(
+      color: AppColors.textColor,
+      fontSize: screensize.width * 0.10,
+    ),
   );
 }
 
 Widget _titletext(BuildContext context) {
+  final screensize = MediaQuery.of(context).size;
   return Text(
     "QrGenX",
     style: GoogleFonts.poppins(
       color: AppColors.textColor,
-      fontSize: 45,
+      fontSize: screensize.width * 0.13,
       fontWeight: FontWeight.bold,
     ),
   );
