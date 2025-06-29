@@ -23,16 +23,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.watch<ThemeProvider>().isDarktheme;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    final themeProvider = context.watch<ThemeProvider>();
+    final themeData =
+        themeProvider.isDarktheme
+            ? SoftNeumorphicTheme.dark()
+            : SoftNeumorphicTheme.light();
 
-      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
-      theme: SoftNeumorphicTheme.light(),
-      darkTheme: SoftNeumorphicTheme.dark(),
-      // home: SplashScreen(),
-      home: WelcomePage(),
+    return AnimatedTheme(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      data: themeData,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        themeMode: themeProvider.isDarktheme ? ThemeMode.dark : ThemeMode.light,
+        theme: SoftNeumorphicTheme.light(),
+        darkTheme: SoftNeumorphicTheme.dark(),
+        home: const WelcomePage(),
+      ),
     );
   }
 }
-

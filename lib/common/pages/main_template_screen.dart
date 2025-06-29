@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qrgenx/common/provider/navigation_provider.dart';
 import 'package:qrgenx/features/generate/generate_page.dart';
@@ -36,6 +37,14 @@ class _MainTemplateScreenState extends State<MainTemplateScreen> {
   Widget build(BuildContext context) {
     // final navProvider = Provider.of<NavigationProvider>(context, listen: false);
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "QRGENX",
+          style: GoogleFonts.poppins(fontSize: 35, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
       body: PageView(
         controller: _pagecontroller,
         physics: NeverScrollableScrollPhysics(),
@@ -74,6 +83,7 @@ class _MainTemplateScreenState extends State<MainTemplateScreen> {
               _historyItem(),
               _settingsItem(),
             ],
+            
           );
         },
       ),

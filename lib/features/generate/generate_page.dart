@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qrgenx/common/provider/theme_provider.dart';
 import 'package:qrgenx/common/widgets/button.dart';
 
 class GeneratePage extends StatefulWidget {
@@ -33,7 +36,6 @@ class _GeneratePageState extends State<GeneratePage> {
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: const Text("Generate QR")),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -43,16 +45,34 @@ class _GeneratePageState extends State<GeneratePage> {
                 controller: _controller,
                 decoration: const InputDecoration(
                   labelText: "Enter text or URL",
+
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16),
               MyElevatedButton(
-                onPressed: () => _generateQR(),
+                onPressed: () {
+                  if (_controller.text == "") {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("No Data Entered"),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    _generateQR();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Qr Generated"),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
                 text: "Generate QR",
                 icon: Icons.qr_code,
               ),
-              SizedBox(height: screen.height * 0.024),
+              SizedBox(height: screen.height * 0.124),
               _QrArea(context, _qrData),
             ],
           ),
@@ -87,7 +107,7 @@ Widget _QrArea(BuildContext context, String qrdata) {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.qr_code, size: 64, color: Colors.black87),
+                  Icon(Icons.qr_code, size: 64),
                   SizedBox(height: 12),
                   Text(
                     "Enter text to generate a QR code",

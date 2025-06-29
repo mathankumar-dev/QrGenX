@@ -65,6 +65,19 @@ class SoftNeumorphicTheme {
         ),
       ),
       cardColor: _lightColorScheme.surface,
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor:
+              Colors.blue, // or Theme.of(context).colorScheme.primary
+        ),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: _lightColorScheme.onSurface.withOpacity(0.6),
+        backgroundColor: _lightColorScheme.background,
+        selectedIconTheme: IconThemeData(size: 28),
+        unselectedIconTheme: IconThemeData(size: 24),
+      ),
     );
   }
 
@@ -95,6 +108,12 @@ class SoftNeumorphicTheme {
         ),
       ),
       cardColor: _darkColorScheme.surface,
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor:
+              Colors.blue, // or Theme.of(context).colorScheme.primary
+        ),
+      ),
     );
   }
 }

@@ -16,25 +16,19 @@ class ScanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screensize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "QRGENX",
-          style: GoogleFonts.poppins(fontSize: 35, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _scanfromimagebutton(context),
-              SizedBox(height: screensize.height * 0.03),
-              _scanfromcamerabutton(context),
-            ],
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _scanfromimagebutton(context),
+                SizedBox(height: screensize.height * 0.03),
+                _scanfromcamerabutton(context),
+              ],
+            ),
           ),
         ),
       ),

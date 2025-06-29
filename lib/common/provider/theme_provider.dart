@@ -17,9 +17,8 @@ class ThemeProvider extends ChangeNotifier {
     _isDarkTheme = prefs.getBool(_themekey) ?? false;
   }
 
-  void ToggleTheme() async {
+  void toggleTheme() async {
     _isDarkTheme = !_isDarkTheme;
-
     notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
