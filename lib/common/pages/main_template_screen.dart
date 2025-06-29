@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qrgenx/common/provider/navigation_provider.dart';
 import 'package:qrgenx/features/generate/generate_page.dart';
 import 'package:qrgenx/features/history/history_page.dart';
-import 'package:qrgenx/features/scan/scan_page.dart';
+import 'package:qrgenx/features/scan/scan_home_page.dart';
 import 'package:qrgenx/features/setting/settings_page.dart';
 
 class MainTemplateScreen extends StatefulWidget {
