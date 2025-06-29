@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrgenx/common/provider/navigation_provider.dart';
-import 'package:qrgenx/features/generate/3presentation/pages/create_page.dart';
-import 'package:qrgenx/features/history/3presentation/history_page.dart';
-import 'package:qrgenx/features/scan/3presentation/pages/scan_page.dart';
-import 'package:qrgenx/features/setting/3presentation/settings_page.dart';
+import 'package:qrgenx/features/generate/generate_page.dart';
+import 'package:qrgenx/features/history/history_page.dart';
+import 'package:qrgenx/features/scan/scan_page.dart';
+import 'package:qrgenx/features/setting/settings_page.dart';
 
 class MainTemplateScreen extends StatefulWidget {
   const MainTemplateScreen({super.key});
@@ -27,7 +27,7 @@ class _MainTemplateScreenState extends State<MainTemplateScreen> {
 
   final List<Widget> _pages = const [
     ScanPage(),
-    CreatePage(),
+    GeneratePage(),
     HistoryPage(),
     SettingsPage(),
   ];
@@ -35,49 +35,47 @@ class _MainTemplateScreenState extends State<MainTemplateScreen> {
   @override
   Widget build(BuildContext context) {
     // final navProvider = Provider.of<NavigationProvider>(context, listen: false);
-    return SafeArea(
-      child: Scaffold(
-        body: PageView(
-          controller: _pagecontroller,
-          physics: NeverScrollableScrollPhysics(),
-          children: _pages,
-        ),
-        bottomNavigationBar: Consumer<NavigationProvider>(
-          builder: (
-            BuildContext context,
-            NavigationProvider navProvider,
-            Widget? child,
-          ) {
-            return BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: navProvider.currentindex,
-              onTap: (index) {
-                final currentPage = _pagecontroller.page?.round() ?? 0;
+    return Scaffold(
+      body: PageView(
+        controller: _pagecontroller,
+        physics: NeverScrollableScrollPhysics(),
+        children: _pages,
+      ),
+      bottomNavigationBar: Consumer<NavigationProvider>(
+        builder: (
+          BuildContext context,
+          NavigationProvider navProvider,
+          Widget? child,
+        ) {
+          return BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: navProvider.currentindex,
+            onTap: (index) {
+              final currentPage = _pagecontroller.page?.round() ?? 0;
 
-                if ((index - currentPage).abs() == 1) {
-                  // Adjacent page: animate
-                  _pagecontroller.animateToPage(
-                    index,
-                    duration: const Duration(milliseconds: 350),
-                    curve: Curves.easeInOut,
-                  );
-                } else {
-                  // Far page: jump instantly
-                  _pagecontroller.jumpToPage(index);
-                }
+              if ((index - currentPage).abs() == 1) {
+                // Adjacent page: animate
+                _pagecontroller.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 350),
+                  curve: Curves.easeInOut,
+                );
+              } else {
+                // Far page: jump instantly
+                _pagecontroller.jumpToPage(index);
+              }
 
-                // Always update the provider
-                navProvider.changeIndex(index);
-              },
-              items: [
-                _scanItem(),
-                _createItem(),
-                _historyItem(),
-                _settingsItem(),
-              ],
-            );
-          },
-        ),
+              // Always update the provider
+              navProvider.changeIndex(index);
+            },
+            items: [
+              _scanItem(),
+              _createItem(),
+              _historyItem(),
+              _settingsItem(),
+            ],
+          );
+        },
       ),
     );
   }

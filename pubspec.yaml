@@ -25,6 +25,8 @@ dependencies:
   image: ^4.5.4
   zxing2: ^0.2.4
   url_launcher: ^6.3.1
+  shared_preferences:
+  qr_flutter: ^4.1.0
 
 flutter_launcher_icons:
   android: "launcher_icon"
