@@ -45,7 +45,7 @@ class _GeneratePageState extends State<GeneratePage> {
                 controller: _controller,
                 decoration: const InputDecoration(
                   labelText: "Enter text or URL",
-
+                  
                   border: OutlineInputBorder(),
                 ),
               ),

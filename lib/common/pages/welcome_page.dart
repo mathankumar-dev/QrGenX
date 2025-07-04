@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qrgenx/common/app_colors.dart';
 import 'package:qrgenx/common/pages/main_template_screen.dart';
-import 'package:qrgenx/common/widgets/conatainer.dart';
+import 'package:qrgenx/common/widgets/container.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -12,6 +12,7 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  @override
   void initState() {
     super.initState();
 

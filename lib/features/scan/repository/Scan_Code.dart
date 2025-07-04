@@ -37,9 +37,10 @@ class ScanCode {
 
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
+    print("Picked path: ${image?.path}");
 
     if (image != null) {
-      final result = await QrDecoder.decodefromimage(image.path);
+      final result = await QrDecoder.decodeFromImage(image.path);
       if (context.mounted && result != null) {
         await _handleResult(context, result);
       } else if (context.mounted) {

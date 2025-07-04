@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qrgenx/common/provider/navigation_provider.dart';
+import 'package:qrgenx/common/provider/theme_provider.dart';
 import 'package:qrgenx/features/generate/generate_page.dart';
 import 'package:qrgenx/features/history/history_page.dart';
 import 'package:qrgenx/features/scan/scan_home_page.dart';
@@ -35,7 +36,7 @@ class _MainTemplateScreenState extends State<MainTemplateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final navProvider = Provider.of<NavigationProvider>(context, listen: false);
+    final isDark = Provider.of<ThemeProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -83,7 +84,6 @@ class _MainTemplateScreenState extends State<MainTemplateScreen> {
               _historyItem(),
               _settingsItem(),
             ],
-            
           );
         },
       ),

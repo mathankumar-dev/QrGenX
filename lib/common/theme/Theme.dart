@@ -78,6 +78,12 @@ class SoftNeumorphicTheme {
         selectedIconTheme: IconThemeData(size: 28),
         unselectedIconTheme: IconThemeData(size: 24),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: TextStyle(
+          color: _lightColorScheme.onBackground,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+        ),
+      ),
     );
   }
 
@@ -89,6 +95,12 @@ class SoftNeumorphicTheme {
       textTheme: GoogleFonts.poppinsTextTheme().apply(
         bodyColor: _darkColorScheme.onBackground,
         displayColor: _darkColorScheme.onBackground,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: TextStyle(
+          color: _darkColorScheme.onBackground,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+        ),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: _darkColorScheme.background,

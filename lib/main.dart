@@ -4,7 +4,7 @@ import 'package:qrgenx/common/pages/splash_screen.dart';
 import 'package:qrgenx/common/pages/welcome_page.dart';
 import 'package:qrgenx/common/provider/navigation_provider.dart';
 import 'package:qrgenx/common/provider/theme_provider.dart';
-import 'package:qrgenx/common/theme/Theme.dart';
+import 'package:qrgenx/common/theme/theme.dart';
 
 void main() {
   runApp(
