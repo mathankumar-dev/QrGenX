@@ -36,7 +36,7 @@ class _MainTemplateScreenState extends State<MainTemplateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Provider.of<ThemeProvider>(context, listen: false);
+    Provider.of<ThemeProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(
