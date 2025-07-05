@@ -21,6 +21,8 @@ class _QRScanPageState extends State<QRScanPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenheight = MediaQuery.of(context).size.height;
+    double screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(title: const Text("Scan QR")),
       body: SafeArea(
@@ -41,8 +43,8 @@ class _QRScanPageState extends State<QRScanPage> {
             ),
             Center(
               child: Container(
-                width: 250,
-                height: 250,
+                width: screenwidth * 0.70,
+                height: screenheight * 0.35,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 3),
                   borderRadius: BorderRadius.circular(16),
