@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:qrgenx/common/app_colors.dart';
 import 'package:qrgenx/common/widgets/button.dart';
-import 'package:qrgenx/common/utils/qr_decoder.dart';
 import 'package:qrgenx/features/scan/qr_camera_scan_page.dart';
 import 'package:qrgenx/features/scan/repository/Scan_Code.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ScanPage extends StatelessWidget {
   const ScanPage({super.key});
