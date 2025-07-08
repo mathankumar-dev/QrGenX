@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+import 'package:qrgenx/common/provider/history_provider.dart';
 import 'package:qrgenx/common/utils/qr_decoder.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:qrgenx/features/scan/ScanResultpage.dart';
 
 class ScanCode {
   static Future<void> fromGallery(BuildContext context) async {
@@ -12,41 +14,32 @@ class ScanCode {
 
     if (!isGranted) {
       if (permissions.values.any((s) => s.isPermanentlyDenied)) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text(
-                "Permission permanently denied. Open settings.",
-              ),
-              action: SnackBarAction(
-                label: "Settings",
-                onPressed: openAppSettings,
-              ),
-            ),
-          );
-        }
+        _showSnackBar(
+          context,
+          message: "Permission permanently denied. Open settings.",
+          actionLabel: "Settings",
+          onPressed: openAppSettings,
+        );
       } else {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Permission denied to access photos")),
-          );
-        }
+        _showSnackBar(context, message: "Permission denied to access photos");
       }
       return;
     }
 
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
-    print("Picked path: ${image?.path}");
+    debugPrint("Picked path: ${image?.path}");
 
     if (image != null) {
       final result = await QrDecoder.decodeFromImage(image.path);
       if (context.mounted && result != null) {
-        await _handleResult(context, result);
-      } else if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("No QR code or Barcode found.")),
-        );
+        await _handleResult(
+          context,
+          result,
+          type: "QR Code",
+        ); // Gallery = QR Code
+      } else {
+        _showSnackBar(context, message: "No QR code or Barcode found.");
       }
     }
   }
@@ -60,65 +53,48 @@ class ScanCode {
     for (final barcode in capture.barcodes) {
       final String? rawValue = barcode.rawValue;
       if (rawValue != null && context.mounted) {
-        setScannedFlag(true); // for stateful UI
+        setScannedFlag(true);
         await controller.stop();
-        await _handleResult(context, rawValue);
+
+        final String type =
+            barcode.format == BarcodeFormat.qrCode ? "QR Code" : "Barcode";
+
+        await _handleResult(context, rawValue, type: type);
         break;
       }
     }
   }
 
-  static Future<void> _handleResult(BuildContext context, String result) async {
-    final Uri? uri = Uri.tryParse(result);
+  static Future<void> _handleResult(
+    BuildContext context,
+    String result, {
+    required String type,
+  }) async {
+    context.read<HistoryProvider>().addscan(result, type);
 
-    if (uri != null && (uri.scheme == 'http' || uri.scheme == 'https')) {
-      await showDialog(
-        context: context,
-        builder:
-            (_) => AlertDialog(
-              title: const Text("QR Code Link"),
-              content: Text(result),
-              actions: [
-                TextButton(
-                  onPressed: () async {
-                    if (await canLaunchUrl(uri)) {
-                      await launchUrl(
-                        uri,
-                        mode: LaunchMode.externalApplication,
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Could not launch URL")),
-                      );
-                    }
-                  },
-                  child: const Text("Open Link"),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Cancel"),
-                ),
-              ],
-            ),
-      );
-    } else {
-      await showDialog(
-        context: context,
-        builder:
-            (_) => AlertDialog(
-              title: const Text("Scanned Result"),
-              content: Text(result),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("OK"),
-                ),
-              ],
-            ),
-      );
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => ScanResultPage(result: result)),
+    );
+
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
     }
+  }
 
-    // Close the scanner screen after result
-    if (Navigator.canPop(context)) Navigator.pop(context);
+  static void _showSnackBar(
+    BuildContext context, {
+    required String message,
+    String? actionLabel,
+    VoidCallback? onPressed,
+  }) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      action:
+          (actionLabel != null && onPressed != null)
+              ? SnackBarAction(label: actionLabel, onPressed: onPressed)
+              : null,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

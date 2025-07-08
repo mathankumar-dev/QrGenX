@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:qrgenx/common/pages/welcome_page.dart';
+import 'package:qrgenx/common/provider/history_provider.dart';
 import 'package:qrgenx/common/provider/navigation_provider.dart';
 import 'package:qrgenx/common/provider/theme_provider.dart';
 import 'package:qrgenx/common/theme/theme.dart';
+import 'package:qrgenx/data/models/scanned_code_model.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final appDocumentDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
+
+  Hive.registerAdapter(ScannedCodeModelAdapter());
+  await Hive.openBox<ScannedCodeModel>('scanned_codes');
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => HistoryProvider()),
       ],
       child: MyApp(),
     ),
