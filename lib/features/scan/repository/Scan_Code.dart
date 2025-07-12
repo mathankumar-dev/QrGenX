@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -28,19 +29,30 @@ class ScanCode {
 
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
-    debugPrint("Picked path: ${image?.path}");
+    if (image == null) return;
 
-    if (image != null) {
-      final result = await QrDecoder.decodeFromImage(image.path);
-      if (context.mounted && result != null) {
-        await _handleResult(
-          context,
-          result,
-          type: "QR Code",
-        ); // Gallery = QR Code
-      } else {
-        _showSnackBar(context, message: "No QR code or Barcode found.");
-      }
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: image.path,
+      compressFormat: ImageCompressFormat.png,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop QR Code',
+          toolbarColor: Colors.black,
+          toolbarWidgetColor: Colors.white,
+          lockAspectRatio: false,
+          initAspectRatio: CropAspectRatioPreset.original,
+        ),
+        IOSUiSettings(title: 'Crop QR Code'),
+      ],
+    );
+
+    if (croppedFile == null) return;
+
+    final result = await QrDecoder.decodeFromImage(croppedFile.path);
+    if (context.mounted && result != null) {
+      await _handleResult(context, result, type: "QR Code");
+    } else {
+      _showSnackBar(context, message: "No QR code or Barcode found.");
     }
   }
 
