@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:qrgenx/common/pages/welcome_page.dart';
+import 'package:qrgenx/common/pages/main_template_screen.dart';
+
 import 'package:qrgenx/common/provider/history_provider.dart';
 import 'package:qrgenx/common/provider/navigation_provider.dart';
 import 'package:qrgenx/common/provider/theme_provider.dart';
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
         themeMode: themeProvider.isDarktheme ? ThemeMode.dark : ThemeMode.light,
         theme: SoftNeumorphicTheme.light(),
         darkTheme: SoftNeumorphicTheme.dark(),
-        home: const WelcomePage(),
+        home: const MainTemplateScreen(),
       ),
     );
   }
